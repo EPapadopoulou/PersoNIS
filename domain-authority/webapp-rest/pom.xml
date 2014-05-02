@@ -1,0 +1,382 @@
+<?xml version="1.0" encoding="UTF-8"?><!-- Copyright (c) 2011, SOCIETIES 
+	Consortium (WATERFORD INSTITUTE OF TECHNOLOGY (TSSG), HERIOT-WATT UNIVERSITY 
+	(HWU), SOLUTA.NET (SN), GERMAN AEROSPACE CENTRE (Deutsches Zentrum fuer Luft- 
+	und Raumfahrt e.V.) (DLR), Zavod za varnostne tehnologije informacijske družbe 
+	in elektronsko poslovanje (SETCCE), INSTITUTE OF COMMUNICATION AND COMPUTER 
+	SYSTEMS (ICCS), LAKE COMMUNICATIONS (LAKE), INTEL PERFORMANCE LEARNING SOLUTIONS 
+	LTD (INTEL), PORTUGAL TELECOM INOVAÇÃO, SA (PTIN), IBM Corp., INSTITUT TELECOM 
+	(ITSUD), AMITEC DIACHYTI EFYIA PLIROFORIKI KAI EPIKINONIES ETERIA PERIORISMENIS 
+	EFTHINIS (AMITEC), TELECOM ITALIA S.p.a.(TI), TRIALOG (TRIALOG), Stiftelsen 
+	SINTEF (SINTEF), NEC EUROPE LTD (NEC)) All rights reserved. Redistribution 
+	and use in source and binary forms, with or without modification, are permitted 
+	provided that the following conditions are met: 1. Redistributions of source 
+	code must retain the above copyright notice, this list of conditions and 
+	the following disclaimer. 2. Redistributions in binary form must reproduce 
+	the above copyright notice, this list of conditions and the following disclaimer 
+	in the documentation and/or other materials provided with the distribution. 
+	THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" 
+	AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE 
+	IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE 
+	ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE 
+	LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL 
+	DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR 
+	SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER 
+	CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, 
+	OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE 
+	USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.societies.domain-authority</groupId>
+	<artifactId>DomainAuthorityRest</artifactId>
+	<packaging>war</packaging>
+	<version>${release.version}</version>
+	<name>Domain authority REST Webapp</name>
+	<description>REST server for sharing any files related to SOCIETIES 3rd party services, for example jar file for service client, any service specific resources like videos, etc. The server has access control and allows download only to clients that present a valid proof of authorization from the service provider (given by the service provider after a successful policy negotiation).</description>
+
+	<developers>
+		<developer>
+			<id>mvardjan</id>
+			<name>Mitja Vardjan</name>
+			<email>mitja.vardjan@setcce.si</email>
+			<organization>SETCCE</organization>
+			<organizationUrl>http://www.setcce.si</organizationUrl>
+			<roles>
+				<role>owner</role>
+				<role>developer</role>
+			</roles>
+			<timezone>+1</timezone>
+		</developer>
+	</developers>
+
+	<parent>
+		<groupId>org.societies</groupId>
+		<artifactId>spring-osgi-parent</artifactId>
+		<version>RELEASE</version>
+	</parent>
+
+	<dependencies>
+		
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>org.springframework.spring-library</artifactId>
+			<type>libd</type>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.osgi</groupId>
+			<artifactId>org.osgi.compendium</artifactId>
+			<version>4.1.0</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.osgi</groupId>
+			<artifactId>org.osgi.core</artifactId>
+			<version>4.1.0</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.osgi</groupId>
+			<artifactId>org.springframework.osgi.web</artifactId>
+			<version>1.2.1</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>org.springframework.web.servlet</artifactId>
+			<version>3.0.5.RELEASE</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.ws.rs</groupId>
+			<artifactId>com.springsource.javax.ws.rs</artifactId>
+			<version>1.0.0</version>
+			<scope>provided</scope>
+		</dependency>
+<!--
+		<dependency>
+			<groupId>com.sun.jersey</groupId>
+			<artifactId>jersey-core</artifactId>
+			<version>${jersey-version}</version>
+			<scope>compile</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>cglib</groupId>
+					<artifactId>cglib</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>asm</groupId>
+					<artifactId>asm</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>asm</groupId>
+					<artifactId>asm-attrs</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>javax.transaction</groupId>
+					<artifactId>jta</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>commons-collections</groupId>
+					<artifactId>commons-collections</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>com.sun.jersey</groupId>
+			<artifactId>jersey-server</artifactId>
+			<version>${jersey-version}</version>
+			<scope>compile</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>cglib</groupId>
+					<artifactId>cglib</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>asm</groupId>
+					<artifactId>asm</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>asm</groupId>
+					<artifactId>asm-attrs</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>javax.transaction</groupId>
+					<artifactId>jta</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>commons-collections</groupId>
+					<artifactId>commons-collections</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+-->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.8.2</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-simple</artifactId>
+			<version>${slf4j.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>com.springsource.slf4j.org.apache.commons.logging</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.societies.comm.xmpp</groupId>
+			<artifactId>XCCommunicationMgr</artifactId>
+			<version>${version.comm}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.societies.api.external</groupId>
+			<artifactId>societies-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.societies.api.internal</groupId>
+			<artifactId>societies-api-internal</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>commons-fileupload</groupId>
+			<artifactId>commons-fileupload</artifactId>
+			<version>1.1.1</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+		
+		<finalName>domain-authority-rest</finalName>
+		
+		<plugins>
+			
+			<plugin>
+				<groupId>org.apache.felix</groupId>
+				<artifactId>maven-bundle-plugin</artifactId>
+				<extensions>true</extensions>
+				<executions>
+					<execution>
+						<id>bundle-manifest</id>
+						<phase>process-classes</phase>
+						<goals>
+							<goal>manifest</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<manifestLocation>${project.build.directory}/META-INF</manifestLocation>
+					<supportedProjectTypes>
+						<supportedProjectType>jar</supportedProjectType>
+						<supportedProjectType>bundle</supportedProjectType>
+						<supportedProjectType>war</supportedProjectType>
+					</supportedProjectTypes>
+					<instructions>
+						<Bundle-SymbolicName>${pom.artifactId}</Bundle-SymbolicName>
+						<Import-Package>
+							javax.servlet;version="[3.0.0, 4.0.0)";resolution:=optional,
+							javax.servlet.http;version="[3.0.0, 4.0.0)";resolution:=optional, 
+							<!-- spring DM -->
+							org.springframework.beans.factory.config;resolution:=optional,
+							org.springframework.osgi.web.context.support;resolution:=optional,
+							org.springframework.web.context;resolution:=optional,
+							org.springframework.stereotype;resolution:=optional,
+							org.springframework.web.bind.annotation;resolution:=optional,
+							org.eclipse.virgo.web.dm;version="[3.0.0, 4.0.0)",
+							org.springframework.beans.factory.annotation;resolution:=optional,
+							org.springframework.context.config;resolution:=optional,
+							org.osgi.framework;resolution:=optional,
+
+							javax.ws.rs;resolution:=optional,
+							org.springframework.web.servlet;resolution:=optional,
+							org.objectweb.asm;resolution:=optional,
+							javax.annotation;resolution:=optional,
+							
+							org.societies.api.identity;resolution:=optional,
+							
+							*;resolution:=optional
+						</Import-Package>
+						<Export-Package>!*</Export-Package>
+						<_nouses>true</_nouses>
+						<Bundle-ClassPath>.,WEB-INF/classes</Bundle-ClassPath>
+						<Embed-Directory>WEB-INF/lib</Embed-Directory>
+						<Embed-Dependency>*;scope=compile|runtime</Embed-Dependency>
+						<Webapp-Context>rest</Webapp-Context>
+						<Web-ContextPath>rest</Web-ContextPath>
+					</instructions>
+				</configuration>
+			</plugin>
+			
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>2.2</version>
+				<configuration>
+					<attachClasses>true</attachClasses>
+<!--
+					<packagingExcludes>WEB-INF/lib/a*.jar,WEB-INF/lib/c*.jar</packagingExcludes>
+-->
+					<archive>
+						<manifestFile>${project.build.directory}/META-INF/MANIFEST.MF</manifestFile>
+						<manifest>
+							<addClasspath>true</addClasspath>
+<!--
+							<classpathPrefix>lib/</classpathPrefix>
+-->
+						</manifest>
+					</archive>
+				</configuration>
+			</plugin>
+			
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+				</configuration>
+			</plugin>
+			
+			<plugin>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>copy-installed</id>
+						<phase>install</phase>
+						<goals>
+							<goal>copy</goal>
+						</goals>
+						<configuration>
+						
+						 <artifactItems>
+						<!--		<artifactItem>
+									<groupId>javax.validation</groupId>
+									<artifactId>com.springsource.javax.validation</artifactId>
+									<version>1.0.0.GA</version>
+									<type>jar</type>
+								</artifactItem> 
+								<artifactItem>
+									<groupId>org.springframework.osgi</groupId>
+									<artifactId>org.springframework.osgi.web</artifactId>
+									<version>1.2.1</version>
+									<type>jar</type>
+								</artifactItem> -->
+
+<!--
+								<artifactItem>
+									<groupId>com.sun.jersey</groupId>
+									<artifactId>jersey-core</artifactId>
+									<version>${jersey-version}</version>
+									<type>jar</type>
+								</artifactItem>
+								<artifactItem>
+									<groupId>com.sun.jersey</groupId>
+									<artifactId>jersey-server</artifactId>
+									<version>${jersey-version}</version>
+									<type>jar</type>
+								</artifactItem>
+-->
+
+								<artifactItem>
+									<groupId>org.objectweb.asm</groupId>
+									<artifactId>com.springsource.org.objectweb.asm</artifactId>
+									<version>3.2.0</version>
+									<type>jar</type>
+								</artifactItem>
+								<artifactItem>
+									<groupId>javax.ws.rs</groupId>
+									<artifactId>jsr311-api</artifactId>
+									<version>1.1.1</version>
+									<type>jar</type>
+								</artifactItem> 
+						<!-- 	<artifactItem>
+									<groupId>org.apache.commons</groupId>
+									<artifactId>com.springsource.org.apache.commons.lang</artifactId>
+									<version>2.5.0</version>
+									<type>jar</type>
+								</artifactItem> -->
+								<!--artifactItem>
+									<groupId>javax.servlet</groupId>
+									<artifactId>com.springsource.javax.servlet</artifactId>
+									<version>2.5.0</version>
+								</artifactItem-->
+
+							</artifactItems>
+							<outputDirectory>${spring.osgi.deploy.dir}</outputDirectory>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<configuration>
+					<artifactItems>
+						<artifactItem>
+							<groupId>${project.groupId}</groupId>
+							<artifactId>${project.artifactId}</artifactId>
+							<version>${project.version}</version>
+							<type>war</type>
+							<overWrite>true</overWrite>
+							<outputDirectory>${spring.osgi.deploy.dir}</outputDirectory>
+						</artifactItem>
+					</artifactItems>
+				</configuration>
+			</plugin>
+			
+		</plugins>
+		
+	</build>
+
+	<properties>
+		<jersey-version>1.8</jersey-version>
+	</properties>
+	
+</project>

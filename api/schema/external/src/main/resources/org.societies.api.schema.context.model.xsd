@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema elementFormDefault="qualified" version="1.0" 
+           targetNamespace="http://societies.org/api/schema/context/model"   
+           xmlns:tns="http://societies.org/api/schema/context/model"   
+           xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" jaxb:version="2.0" 
+           xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <xs:complexType name="ctxIdentifierBean" abstract="true">
+    <xs:sequence>
+      <xs:element name="string" type="xs:string"/>
+      <xs:element name="ownerId" type="xs:string" minOccurs="0"/>
+      <xs:element name="modelType" type="tns:ctxModelTypeBean" minOccurs="0"/>
+      <xs:element name="type" type="xs:string" minOccurs="0"/>
+      <xs:element name="objectNumber" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+  
+  <xs:complexType name="ctxEntityIdentifierBean">
+    <xs:complexContent>
+      <xs:extension base="tns:ctxIdentifierBean">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  
+  <xs:complexType name="ctxAttributeIdentifierBean">
+    <xs:complexContent>
+      <xs:extension base="tns:ctxIdentifierBean">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  
+  <xs:complexType name="ctxAssociationIdentifierBean">
+    <xs:complexContent>
+      <xs:extension base="tns:ctxIdentifierBean">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ctxModelObjectBean" abstract="true">
+    <xs:sequence>
+      <xs:element name="id" type="tns:ctxIdentifierBean"/>
+      <xs:element name="lastModified" type="xs:dateTime" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ctxEntityBean">
+    <xs:complexContent>
+      <xs:extension base="tns:ctxModelObjectBean">
+        <xs:sequence>
+          <xs:element name="attributes" type="tns:ctxAttributeBean" maxOccurs="unbounded"/>
+          <xs:element name="associations" type="tns:ctxAssociationIdentifierBean" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  
+    <xs:complexType name="ctxAssociationBean">
+    <xs:complexContent>
+      <xs:extension base="tns:ctxModelObjectBean">
+        <xs:sequence>
+          <xs:element name="parentEntity" type="tns:ctxEntityIdentifierBean" minOccurs="0"/>
+          <xs:element name="childEntities" type="tns:ctxEntityIdentifierBean" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  
+  <xs:complexType name="ctxAttributeBean">
+    <xs:complexContent>
+      <xs:extension base="tns:ctxModelObjectBean">
+        <xs:sequence>
+          <xs:element name="stringValue" type="xs:string" minOccurs="0"/>
+<!--            <xs:element name="integerValue" type="xs:int" minOccurs="0" default="-1"/>
+          <xs:element name="doubleValue" type="xs:double"  minOccurs="0" default="-1"/>-->
+          <xs:element name="integerValue" type="xs:int" minOccurs="0"/>
+          <xs:element name="doubleValue" type="xs:double"  minOccurs="0"/>
+          <xs:element name="binaryValue" type="xs:base64Binary"  minOccurs="0"/>
+          <xs:element name="valueType" type="tns:ctxAttributeValueTypeBean" minOccurs="0"/>
+          <xs:element name="valueMetric" type="xs:string" minOccurs="0"/>
+          <xs:element name="quality" type="tns:ctxQualityBean" minOccurs="0"/>
+          <xs:element name="sourceId" type="xs:string" minOccurs="0"/>
+          <xs:element name="historyRecorded" type="xs:boolean" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ctxQualityBean">
+    <xs:sequence>
+      <xs:element name="lastUpdated" type="xs:dateTime" minOccurs="0" />
+      <xs:element name="originType" type="tns:ctxOriginTypeBean" minOccurs="0"/>
+<!--       <xs:element name="precision" type="xs:double" minOccurs="0" default="-1"/>
+      <xs:element name="updateFrequency" type="xs:double" minOccurs="0" default="-1"/> -->
+      <xs:element name="precision" type="xs:double" minOccurs="0"/>
+      <xs:element name="updateFrequency" type="xs:double" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  
+  <xs:complexType name="communityMemberCtxEntityBean" abstract="true">
+    <xs:complexContent>
+      <xs:extension base="tns:ctxEntityBean">
+        <xs:sequence>
+          <xs:element name="communities" type="tns:ctxEntityIdentifierBean" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  
+  <xs:complexType name="individualCtxEntityBean">
+    <xs:complexContent>
+      <xs:extension base="tns:communityMemberCtxEntityBean">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="communityCtxEntityBean">
+    <xs:complexContent>
+      <xs:extension base="tns:communityMemberCtxEntityBean">
+        <xs:sequence>
+          <xs:element name="members" type="tns:ctxEntityIdentifierBean" maxOccurs="unbounded"/>
+          <xs:element name="bonds" type="tns:ctxBondBean" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ctxBondBean" abstract="true">
+    <xs:sequence>
+      <xs:element name="modelType" type="tns:ctxModelTypeBean"/>
+      <xs:element name="type" type="xs:string"/>
+      <xs:element name="originType" type="tns:ctxBondOriginTypeBean"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ctxAttributeBondBean">
+    <xs:complexContent>
+      <xs:extension base="tns:ctxBondBean">
+        <xs:sequence>
+          <xs:element name="valueType" type="tns:ctxAttributeValueTypeBean" minOccurs="0"/>
+          <xs:element name="maxValue" type="xs:string" minOccurs="0"/>
+          <xs:element name="minValue" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ctxHistoryAttributeBean">
+    <xs:complexContent>
+      <xs:extension base="tns:ctxModelObjectBean">
+        <xs:sequence>
+          <xs:element name="historyRecordId" type="xs:long"/>
+          <xs:element name="stringValue" type="xs:string"  minOccurs="0"/>
+          <xs:element name="integerValue" type="xs:int"  minOccurs="0"/>
+          <xs:element name="doubleValue" type="xs:double"  minOccurs="0"/>
+          <xs:element name="binaryValue" type="xs:base64Binary" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:simpleType name="ctxModelTypeBean">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="entity"/>
+      <xs:enumeration value="attribute"/>
+      <xs:enumeration value="association"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="ctxAttributeValueTypeBean">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="empty"/>
+      <xs:enumeration value="string"/>
+      <xs:enumeration value="integer"/>
+      <xs:enumeration value="double"/>
+      <xs:enumeration value="binary"/>
+      <xs:enumeration value="complex"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="ctxOriginTypeBean">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="manuallySet"/>
+      <xs:enumeration value="sensed"/>
+      <xs:enumeration value="inferred"/>
+      <xs:enumeration value="inherited"/>
+    </xs:restriction>
+  </xs:simpleType>
+  
+  <xs:simpleType name="ctxBondOriginTypeBean">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="manuallySet"/>
+      <xs:enumeration value="discovered"/>
+      <xs:enumeration value="inherited"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="ctxUIElement">
+    <xs:sequence>
+      <xs:element name="id" type="xs:string" minOccurs="0"/>
+      <xs:element name="diplayId" type="xs:string" minOccurs="0"/>
+      <xs:element name="idNoSpecChar" type="xs:string" minOccurs="0"/>
+      <xs:element name="quality"  type="xs:string" minOccurs="0"/>
+      <xs:element name="source"   type="xs:string" minOccurs="0"/>
+      <xs:element name="model"    type="xs:string" minOccurs="0"/>
+      <xs:element name="type"     type="xs:string" minOccurs="0"/>
+      <xs:element name="value"    type="xs:string" minOccurs="0"/>
+      <xs:element name="qualityBean" type="tns:ctxQualityBean" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+  
+</xs:schema>

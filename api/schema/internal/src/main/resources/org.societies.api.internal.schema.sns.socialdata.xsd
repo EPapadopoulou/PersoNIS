@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema  elementFormDefault="qualified" version="1.0" 
+             xmlns="http://societies.org/api/internal/schema/sns/socialdata"      
+             targetNamespace="http://societies.org/api/internal/schema/sns/socialdata" 
+             xmlns:tns="http://societies.org/api/internal/schema/sns/socialdata"       
+             xmlns:tns2="http://societies.org/api/schema/sns/socialdata/model"
+             xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+<xs:import namespace="http://societies.org/api/schema/sns/socialdata/model"
+		schemaLocation="../../../../external/src/main/resources/org.societies.api.schema.sns.socialdata.model.xsd"/>
+
+<xs:element name="socialdataMessageBean">
+  <xs:complexType >
+    <xs:sequence>
+      <xs:element name="identity" 	type="xs:string" minOccurs="0"/>
+      <xs:element name="method" 	type="tns:socialDataMethod"/>
+      <xs:element name="snName" 	type="tns2:socialNetwork" minOccurs="0"/>
+      <xs:element name="token" 		type="xs:string" minOccurs="0"/>
+      <xs:element name="validity" 	type="xs:long" minOccurs="0"/>
+      <xs:element name="params" 	type="xs:string" minOccurs="0"/>
+	  <xs:element name="id" 	    type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+ </xs:element>
+
+ <xs:element name="socialdataResultBean">
+	 <xs:complexType>
+	     <xs:choice minOccurs='0'>
+	      <xs:element name="id" type="xs:string"/>
+	      <xs:element name="timestamp" type="xs:long"/>
+	      <xs:element ref='connectorsList'/>
+	      <xs:element name='available' type="xs:boolean"/>
+	     </xs:choice>
+	  </xs:complexType>
+ </xs:element>
+ 
+  <xs:element name='connectorsList'>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref='connectorBean' minOccurs='0' maxOccurs='unbounded'/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+
+<xs:element name="connectorBean">
+  <xs:complexType>
+    <xs:sequence>
+      <xs:element name="id" type="xs:string" minOccurs="0"/>
+      <xs:element name="name" type="xs:string" minOccurs="0"/>
+      <xs:element name="identity" type="xs:string" minOccurs="0"/>
+      <xs:element name="token" type="xs:string" minOccurs="0"/>
+      <xs:element name="expires" type="xs:long" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+
+
+  <xs:simpleType name="socialDataMethod">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="addConnector"/>
+      <xs:enumeration value="removeConnector"/>
+      <xs:enumeration value="getConnectorList"/>
+      <xs:enumeration value="isConnectorAvailable"/>
+      <xs:enumeration value="getProfiles"/>
+      <xs:enumeration value="getFriends"/>
+      <xs:enumeration value="getGroups"/>
+      <xs:enumeration value="getActivities"/>
+      <xs:enumeration value="doPost"/>
+    </xs:restriction>
+  </xs:simpleType>
+  
+</xs:schema>
+

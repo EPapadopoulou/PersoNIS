@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema elementFormDefault="qualified" version="1.0"
+	targetNamespace="http://societies.org/api/schema/cssmanagement"
+	xmlns:tns="http://societies.org/api/schema/cssmanagement" 
+	xmlns:tnd="http://societies.org/api/schema/css/directory"
+	xmlns:tnl="http://societies.org/api/schema/servicelifecycle/model"
+	xmlns:ins="http://societies.org/api/schema/activity"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+	<xs:import namespace="http://societies.org/api/schema/servicelifecycle/model" schemaLocation="org.societies.api.schema.servicelifecycle.model.xsd" />
+	<xs:import namespace="http://societies.org/api/schema/css/directory"		  schemaLocation="org.societies.api.schema.css.directory.xsd" />
+	<xs:import namespace="http://societies.org/api/schema/activity" 			  schemaLocation="org.societies.api.schema.activity.xsd"/>
+	
+	<xs:complexType name="cssNode">
+		<xs:sequence>
+			<xs:element name="identity" type="xs:string" minOccurs="0" />
+			<xs:element name="status" type="xs:int" />
+			<xs:element name="type" type="xs:int" />
+			<xs:element name="cssNodeMAC" type="xs:string" minOccurs="0" />
+			<xs:element name="interactable" type="xs:string" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:element name="cssManagerMessageBean">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="method" type="tns:methodType"
+					minOccurs="0" />
+				<xs:element name="profile" type="tns:cssRecord"
+					minOccurs="0" />
+				<xs:element name="requestStatus" type="tns:cssRequestStatusType"
+					minOccurs="0" />
+				<xs:element name="targetCssId" type="xs:string"
+					minOccurs="0" />	
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:complexType name="cssRecord">
+		<xs:sequence>
+			<xs:element name="archiveCSSNodes" type="tns:cssNode"
+				nillable="true" minOccurs="0" maxOccurs="unbounded" />
+			<xs:element name="cssIdentity" type="xs:string" minOccurs="0" />
+			<xs:element name="cssNodes" type="tns:cssNode" nillable="true"
+				minOccurs="0" maxOccurs="unbounded" />
+			<xs:element name="emailID" type="xs:string" minOccurs="0" />
+			<xs:element name="entity" type="xs:int" />
+			<xs:element name="foreName" type="xs:string" minOccurs="0" />
+			<xs:element name="homeLocation" type="xs:string"
+				minOccurs="0" />
+			<xs:element name="name" type="xs:string" minOccurs="0" />
+			<xs:element name="sex" type="xs:int" />
+			<xs:element name="workplace" type="xs:string" minOccurs="0" />
+			<xs:element name="position" type="xs:string" minOccurs="0" />
+			<xs:element name="domainServer" type="xs:string"
+				minOccurs="0" />
+			<xs:element name="password" type="xs:string" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="cssRequest">
+		<xs:sequence>
+			<xs:element name="cssIdentity" type="xs:string" minOccurs="0" />
+			<xs:element name="requestStatus" type="tns:cssRequestStatusType"
+				minOccurs="0" />
+			<xs:element name="origin" type="tns:cssRequestOrigin" minOccurs="0"/>	
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="cssInterfaceResult">
+		<xs:sequence>
+			<xs:element name="profile" type="tns:cssRecord" minOccurs="0" />
+			<xs:element name="resultStatus" type="xs:boolean" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:element name="cssManagerResultBean">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="result" type="tns:cssInterfaceResult" minOccurs="0" />
+				<xs:element name="resultAdvertList" type="tnd:cssAdvertisementRecord" minOccurs="0" maxOccurs="unbounded" />
+				<xs:element name="resultServicelist" type="tnl:service" minOccurs="0" maxOccurs="unbounded" />
+				<xs:element name="resultCssRequestList" type="tns:cssRequest" minOccurs="0" maxOccurs="unbounded" />
+				<xs:element name="resultSuggestedFriends" type="tns:friendEntry" minOccurs="0" maxOccurs="unbounded" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+   	<xs:complexType name="friendEntry" >
+       	<xs:sequence>
+           	<xs:element name="key" minOccurs="0" type="tnd:cssAdvertisementRecord"/>
+			<xs:element name="value" minOccurs="0" type="xs:int"/>
+		</xs:sequence>
+	</xs:complexType>
+    
+	<xs:element name='cssManagerResultActivities'>
+		<xs:complexType>
+			<xs:sequence minOccurs='0' maxOccurs='unbounded'>
+				<xs:element ref='ins:MarshaledActivity'/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:simpleType name="methodType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="registerXMPPServer" />
+			<xs:enumeration value="unregisterXMPPServer" />
+			<xs:enumeration value="loginXMPPServer" />
+			<xs:enumeration value="logoutXMPPServer" />
+			<xs:enumeration value="loginCSS" />
+			<xs:enumeration value="logoutCSS" />
+			<xs:enumeration value="registerCSS" />
+			<xs:enumeration value="unregisterCSS" />
+			<xs:enumeration value="registerCSSNode" />
+			<xs:enumeration value="unregisterCSSNode" />
+			<xs:enumeration value="getCSSRecord" />
+			<xs:enumeration value="modifyCSSRecord" />
+			<xs:enumeration value="changeCSSNodeStatus" />
+			<xs:enumeration value="synchProfile" />
+			<xs:enumeration value="setPresenceStatus" />
+			<xs:enumeration value="addAdvertisementRecord" />
+			<xs:enumeration value="deleteAdvertisementRecord" />
+			<xs:enumeration value="updateAdvertisementRecord" />
+			<xs:enumeration value="findAllCssAdvertisementRecords" />
+			<xs:enumeration value="getCssActivities" />
+
+			<xs:enumeration value="findAllCssServiceDetails" />
+			<xs:enumeration value="findAllCssFriendRequests" />
+			<xs:enumeration value="findAllCssRequests" />
+			<xs:enumeration value="updateCssRequest" />
+			<xs:enumeration value="updateCssFriendRequest" />
+
+			<xs:enumeration value="sendCssFriendRequest" />
+			<xs:enumeration value="getCssFriends" />
+			<xs:enumeration value="suggestedFriends" />
+			<xs:enumeration value="getFriendRequests" />
+			<xs:enumeration value="acceptCssFriendRequest" />
+			<xs:enumeration value="acceptCssFriendRequestInternal" />
+			<xs:enumeration value="sendCssFriendRequestInternal" />
+			<xs:enumeration value="declineCssFriendRequest" />
+			<xs:enumeration value="deleteCssFriend" />
+
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="cssRequestStatusType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="accepted" />
+			<xs:enumeration value="denied" />
+			<xs:enumeration value="pending" />
+			<xs:enumeration value="cancelled" />
+			<xs:enumeration value="notrequested" />
+			<xs:enumeration value="needsresp" />
+			<xs:enumeration value="deletefriend" />
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:simpleType name="cssRequestOrigin">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="local" />
+			<xs:enumeration value="remote" />
+		</xs:restriction>
+	</xs:simpleType>
+	
+	
+	<xs:complexType name="cssAdvertisementRecordDetailed">
+		<xs:sequence>
+			<xs:element name="resultCssAdvertisementRecord" type="tnd:cssAdvertisementRecord" minOccurs="0"/>
+			<xs:element name="status" type="tns:cssRequestStatusType" minOccurs="0"/>
+			<xs:element name="origin" type="tns:cssRequestOrigin" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	
+
+	<xs:element name="cssEvent">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="description" type="xs:string" minOccurs="0"/>
+				<xs:element name="type" type="xs:string" minOccurs="0"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+
+</xs:schema>
+

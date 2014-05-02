@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:osgi="http://www.springframework.org/schema/osgi"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+                      http://www.springframework.org/schema/osgi http://www.springframework.org/schema/osgi/spring-osgi.xsd">
+       
+      
+      
+      <!-- Add your references to the societies components, if not already present, between this............................................... -->
+      
+      <osgi:reference id="CisManager" interface="org.societies.api.cis.management.ICisManager"/>
+      
+      <osgi:reference id="internalCssManager" interface="org.societies.api.internal.css.ICSSInternalManager"/>
+      
+      <!-- <osgi:reference id="CssDirectoryRemote" interface="org.societies.api.css.directory.ICssDirectoryRemote"/> -->  
+      
+      <osgi:reference id="commManager" interface="org.societies.api.comm.xmpp.interfaces.ICommManager"/>
+	
+	  <osgi:reference id="pubsub" interface="org.societies.api.comm.xmpp.pubsub.PubsubClient"/>
+      
+      <osgi:reference id="userFeedback" interface="org.societies.api.internal.useragent.feedback.IUserFeedback"/>
+      
+      <osgi:reference id="privacyPolicyManager" interface="org.societies.api.internal.privacytrust.privacyprotection.IPrivacyPolicyManager"/>
+      
+      <osgi:reference id="internalTrustEvidenceCollector" interface="org.societies.api.internal.privacytrust.trust.evidence.ITrustEvidenceCollector" />
+      
+      <osgi:reference id="internalTrustBroker" interface="org.societies.api.internal.privacytrust.trust.ITrustBroker" />
+
+      <!--...............................................................and this.............................................................. -->
+      
+      
+      
+      
+      <!-- Add your Web Services Declaration, between this...................................................................................... --> 
+       
+       <osgi:service ref="CisMgmtPerformanceTest">	
+			<osgi:interfaces>
+				<value>org.societies.integration.performance.test.upper_tester.rafik.cismgmt.ICisMgmtPerformanceTest</value>
+			</osgi:interfaces>
+			<osgi:service-properties>
+				<entry key="service.exported.interfaces" value="*"/>
+				<entry key="service.exported.configs" value="org.apache.cxf.ws"/>	
+				<entry key="org.apache.cxf.ws.address" value="${ws.host.name}${ws.rafik.cismgmt}"/>
+			</osgi:service-properties>
+       </osgi:service>
+       
+       <osgi:service ref="CssMgmtPerformanceTest">	
+			<osgi:interfaces>
+				<value>org.societies.integration.performance.test.upper_tester.rafik.cssmgmt.ICssMgmtPerfromanceTest</value>
+			</osgi:interfaces>
+			<osgi:service-properties>
+				<entry key="service.exported.interfaces" value="*"/>
+				<entry key="service.exported.configs" value="org.apache.cxf.ws"/>	
+				<entry key="org.apache.cxf.ws.address" value="${ws.host.name}${ws.rafik.cssmgmt}"/>
+			</osgi:service-properties>
+       </osgi:service>
+       
+       <osgi:service ref="testDirectTrustPerformance">	
+			<osgi:interfaces>
+				<value>org.societies.integration.performance.test.upper_tester.trust.direct.ITestDirectTrustPerformance</value>
+			</osgi:interfaces>
+			<osgi:service-properties>
+				<entry key="service.exported.interfaces" value="*"/>
+				<entry key="service.exported.configs" value="org.apache.cxf.ws"/>	
+				<entry key="org.apache.cxf.ws.address" value="${ws.host.name}${ws.trust.direct}"/>
+			</osgi:service-properties>
+       </osgi:service>
+       
+       <osgi:service ref="testIndirectTrustPerformance">	
+			<osgi:interfaces>
+				<value>org.societies.integration.performance.test.upper_tester.trust.indirect.ITestIndirectTrustPerformance</value>
+			</osgi:interfaces>
+			<osgi:service-properties>
+				<entry key="service.exported.interfaces" value="*"/>
+				<entry key="service.exported.configs" value="org.apache.cxf.ws"/>	
+				<entry key="org.apache.cxf.ws.address" value="${ws.host.name}${ws.trust.indirect}"/>
+			</osgi:service-properties>
+       </osgi:service>
+       
+       <!--...............................................................and this.............................................................. -->
+       
+</beans>

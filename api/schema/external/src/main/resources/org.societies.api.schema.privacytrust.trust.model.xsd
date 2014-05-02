@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema elementFormDefault="qualified" version="1.0" 
+           targetNamespace="http://societies.org/api/schema/privacytrust/trust/model"   
+           xmlns:tns="http://societies.org/api/schema/privacytrust/trust/model" 
+           xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <xs:complexType name="trustedEntityIdBean">
+    <xs:sequence>
+      <xs:element name="entityType" type="tns:trustedEntityTypeBean" nillable="false"/>
+      <xs:element name="entityId" type="xs:string" nillable="false"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:simpleType name="trustedEntityTypeBean">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="css"/>
+      <xs:enumeration value="cis"/>
+      <xs:enumeration value="svc"/>
+      <xs:enumeration value="lgc"/>
+    </xs:restriction>
+  </xs:simpleType>
+  
+  <xs:simpleType name="trustValueTypeBean">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="direct"/>
+      <xs:enumeration value="indirect"/>
+      <xs:enumeration value="userPerceived"/>
+    </xs:restriction>
+  </xs:simpleType>
+  
+  <xs:simpleType name="trustEvidenceTypeBean">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="sharedContext"/>
+      <xs:enumeration value="withheldContext"/>
+      <xs:enumeration value="directlyTrusted"/>
+      <xs:enumeration value="rated"/>
+      <xs:enumeration value="friendedUser"/>
+      <xs:enumeration value="unfriendedUser"/>
+      <xs:enumeration value="joinedCommunity"/>
+      <xs:enumeration value="leftCommunity"/>
+      <xs:enumeration value="installedService"/>
+      <xs:enumeration value="uninstalledService"/>
+      <xs:enumeration value="usedService"/>
+      <xs:enumeration value="null"/>
+    </xs:restriction>
+  </xs:simpleType>
+  
+  <xs:complexType name="trustEvidenceBean">
+    <xs:sequence>
+      <xs:element name="subjectId" type="tns:trustedEntityIdBean" nillable="false" minOccurs="1"/>
+      <xs:element name="objectId" type="tns:trustedEntityIdBean" nillable="false" minOccurs="1"/>
+      <xs:element name="type" type="tns:trustEvidenceTypeBean" nillable="false" minOccurs="1"/>
+      <xs:element name="timestamp" type="xs:dateTime" nillable="false" minOccurs="1"/>
+      <xs:element name="info" type="xs:base64Binary" minOccurs="0"/>
+      <xs:element name="sourceId" type="tns:trustedEntityIdBean" minOccurs="0"/>
+	</xs:sequence>
+  </xs:complexType>
+  
+  <xs:complexType name="trustRelationshipBean">
+    <xs:sequence>
+      <xs:element name="trustorId" type="tns:trustedEntityIdBean" minOccurs="1" nillable="false"/>
+	  <xs:element name="trusteeId" type="tns:trustedEntityIdBean" minOccurs="1" nillable="false"/>
+	  <xs:element name="trustValueType" type="tns:trustValueTypeBean" minOccurs="1" nillable="false"/>
+	  <xs:element name="trustValue" type="xs:double" minOccurs="1" nillable="false"/>
+	  <xs:element name="timestamp" type="xs:dateTime" minOccurs="1" nillable="false"/>
+	</xs:sequence>
+  </xs:complexType>
+  
+  <xs:complexType name="extTrustRelationshipBean">
+    <xs:complexContent>
+      <xs:extension base="tns:trustRelationshipBean">
+        <xs:sequence>
+          <xs:element name="trustEvidence" type="tns:trustEvidenceBean" maxOccurs="unbounded"/>
+	    </xs:sequence>
+	  </xs:extension>
+	</xs:complexContent>
+  </xs:complexType>
+  
+  <xs:complexType name="trustRelationshipBean2">
+    <xs:sequence>
+      <xs:element name="trustorId" type="tns:trustedEntityIdBean" minOccurs="1" nillable="false"/>
+	  <xs:element name="trusteeId" type="tns:trustedEntityIdBean" minOccurs="1" nillable="false"/>
+	  <xs:element name="trustValueType" type="tns:trustValueTypeBean" minOccurs="1" nillable="false"/>
+	  <xs:element name="trustValue" type="xs:double" minOccurs="1" nillable="false"/>
+	  <!-- <xs:element name="timestamp" type="xs:dateTime" minOccurs="1" nillable="false"/> -->
+	</xs:sequence>
+  </xs:complexType>
+  
+  <xs:element name="trustUpdateEventBean">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="trustRelationship" type="tns:trustRelationshipBean2" minOccurs="1" nillable="false"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  
+</xs:schema>

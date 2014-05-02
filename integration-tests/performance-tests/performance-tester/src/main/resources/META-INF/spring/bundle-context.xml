@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd
+		http://www.springframework.org/schema/osgi-compendium http://www.springframework.org/schema/osgi-compendium/spring-osgi-compendium.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc" xmlns:osgix="http://www.springframework.org/schema/osgi-compendium"
+	xmlns:tx="http://www.springframework.org/schema/tx">
+
+
+	<context:annotation-config />
+
+	<!-- Please do not modify between this..................................................................................................-->
+	
+	<bean id="PerformanceTesterPropConfig"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="ignoreResourceNotFound" value="true"></property>
+		<property name="locations">
+			<list>
+				<value>file:${CONFIG_DIR}/performance.tester.properties</value>
+			</list>
+		</property>	
+	</bean>
+
+	<bean name="UserFeedbackMocker"
+		class="org.societies.integration.test.userfeedback.UserFeedbackMocker"
+		init-method="onCreate" destroy-method="onDestroy">
+		<!-- <property name="commManager" ref="commManager" /> <property name="pubsub" 
+			ref="pubsub" /> <property name="userFeedback" ref="userFeedback" /> <property 
+			name="enabled" value="${userfeedback.mocked:0}" /> -->
+	</bean>
+
+	<!-- <bean name="UserFeedbackMock" class="org.societies.integration.performance.test.lower_tester.UserFeedbackMock" init-method="init">
+  		<property name="commsMgr" ref="commManager"/>
+		<property name="pubsub" ref="pubsub"/>
+		<property name="userFeedback" ref="userFeedback"/>
+  	</bean> -->
+  	
+  	<!--...............................................................and this.............................................................. -->
+  	
+  	
+  	
+  	
+  	
+  	
+
+
+	<!-- Add your Web service implementation bean, between this............................................................................. -->
+	
+	<!-- Rafik's Declarations start -->
+	
+	<bean name="CisMgmtPerformanceTest" class="org.societies.integration.performance.test.upper_tester.rafik.CisMgmtPerformanceTestImpl">
+  		<property name="cisManager" ref="CisManager"/>
+  		<property name="commManager" ref="commManager"/>
+  		<property name="privacyPolicyManager" ref="privacyPolicyManager"/>
+  	</bean>
+	
+	<bean name="CssMgmtPerformanceTest" class="org.societies.integration.performance.test.upper_tester.rafik.CssMgmtPerformanceTestImpl">
+  		<property name="internalCssManager" ref="internalCssManager"/>
+  		<!-- <property name="cssDirectoryRemote" ref="CssDirectoryRemote"/> -->
+  		<property name="commManager" ref="commManager"/>
+  	</bean>
+	
+	
+	
+	
+	<!-- Rafik's Declarations end -->
+	
+	<!-- Trust declarations start -->
+	
+	<bean name="testDirectTrustPerformance" class="org.societies.integration.performance.test.upper_tester.trust.TestDirectTrustPerformance">
+  		<property name="commManager" ref="commManager"/>
+  		<property name="internalTrustEvidenceCollector" ref="internalTrustEvidenceCollector"/>
+  		<property name="internalTrustBroker" ref="internalTrustBroker"/>
+  	</bean>
+  	
+	<bean name="testIndirectTrustPerformance" class="org.societies.integration.performance.test.upper_tester.trust.TestIndirectTrustPerformance">
+  		<property name="commManager" ref="commManager"/>
+  		<property name="internalTrustEvidenceCollector" ref="internalTrustEvidenceCollector"/>
+  		<property name="internalTrustBroker" ref="internalTrustBroker"/>
+  	</bean>
+  	
+	<!-- Trust declarations end -->
+	
+	
+	
+	
+	
+	<!--...............................................................and this.............................................................. -->
+	
+	
+
+</beans>

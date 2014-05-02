@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8'?>
+
+<xs:schema targetNamespace="http://societies.org/api/schema/cis/directory"
+elementFormDefault='qualified' xmlns:xs="http://www.w3.org/2001/XMLSchema"  
+	xmlns:tns="http://societies.org/api/schema/cis/directory"
+	xmlns="http://societies.org/api/schema/cis/directory" 
+	
+	xmlns:ins="http://societies.org/api/schema/cis/community">
+
+
+<xs:import namespace="http://societies.org/api/schema/cis/community" 
+           schemaLocation="org.societies.api.schema.cis.community.xsd"/>
+
+	<xs:element name="cisDirectoryBean">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="cisA" type="tns:cisAdvertisementRecord"
+					minOccurs="0" />
+				<xs:element name="cisB" type="tns:cisAdvertisementRecord"
+					minOccurs="0" />
+				<xs:element name="filter" type="xs:string"
+					minOccurs="0" />	
+				<xs:element name="method" type="tns:methodType"
+					minOccurs="0" />
+				<xs:element name="idList" type="xs:string"
+					minOccurs="0"  maxOccurs="unbounded" />		
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:complexType name="cisAdvertisementRecord">
+		<xs:sequence>
+			<xs:element name="name" type="xs:string" minOccurs="0" />
+			<xs:element name="id" type="xs:string" minOccurs="0" />
+			<xs:element name="cssownerid" type="xs:string" minOccurs="0" />
+			<xs:element name="password" type="xs:string" minOccurs="0" />
+			<xs:element name="type" type="xs:string" minOccurs="0" />
+			<xs:element ref='ins:membershipCrit' minOccurs='0' maxOccurs='1'/><!--TODO: update to min 1 afterwards-->
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:element name="cisDirectoryBeanResult">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="resultCis" type="tns:cisAdvertisementRecord"
+					nillable="true" minOccurs="0" maxOccurs="unbounded" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:simpleType name="methodType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="addCisAdvertisementRecord" />
+			<xs:enumeration value="deleteCisAdvertisementRecord" />
+			<xs:enumeration value="updateCisAdvertisementRecord" />
+			<xs:enumeration value="findAllCisAdvertisementRecords" />
+			<xs:enumeration value="findForAllCis" />
+			<xs:enumeration value="searchByID" />
+			<xs:enumeration value="searchByIDS" />
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>
+

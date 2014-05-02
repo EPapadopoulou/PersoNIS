@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+  <!-- regular spring configuration file defining the beans for this
+       bundle. We've kept the osgi definitions in a separate 
+       configuration file so that this file can easily be used
+       for integration testing outside of an OSGi environment -->
+
+
+	<bean id="daRestProperties"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />
+		<property name="ignoreResourceNotFound" value="true"></property>
+		<property name="locations">
+			<list>
+				<value>file:${CONFIG_DIR}/org.societies.platform.properties</value>
+			</list>
+		</property>
+	</bean>
+
+  <!--  Mock PZ Wrapper -->
+ <!--
+  <bean id="PZWrapperBean" 
+       		 class="org.societies.context.location.management.impl.MockPZWrapperImpl"
+       		 init-method="init"
+       		 destroy-method="cleanup" >
+   </bean>
+   -->
+   
+   <!--  PZ Wrapper will be connected using REST to the location server   -->
+      <bean id="PZWrapperBean" 
+       		 class="org.societies.context.location.management.impl.PZWrapperImpl" 
+       		 init-method="init">
+          	<property name="productionQueryURL" value="${pz.prd.url}" />
+			<property name="productionAdminURL" value="${pz.prd.server.admin.url}" />
+			<property name="locationSystemActive" value="${location.system.active}" />
+   </bean>
+   
+   
+   <bean id="LMAdapterBean" 
+       		 class="org.societies.context.location.management.impl.LMAdapterImpl" 
+       		 depends-on="CommManager,CommMngrController,ContextSourceManagement,ContextBroker" 
+       		 init-method="init"
+       		 destroy-method="cleanup">
+       		 
+			<property name="contextSourceManagement" ref="ContextSourceManagement" />
+			<property name="contextBroker" ref="ContextBroker" />
+			<property name="commManager" ref="CommManager" />
+			<!-- <property name="deviceRegistry" ref="DeviceRegistry" /> -->
+			<property name="pubSubManager" ref="PubsubClient"/>
+			<property name="commMngrController" ref="CommMngrController"/>
+			<!-- <property name="cssInternalManager" ref="CSSInternalManager"/> -->
+   </bean>
+   
+   
+ 
+</beans>

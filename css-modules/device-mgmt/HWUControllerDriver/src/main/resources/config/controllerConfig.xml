@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<controller
+    id="1"
+    IPAddress="192.168.0.30"
+    location="LearningZone" >
+
+    <mats>
+
+        <mat
+            id="IN1" type="bool"
+            location="CenterOfScreen1" />
+
+        <mat
+            id="IN2" type="bool"
+            location="RightOfScreen1" />
+
+        <mat
+            id="IN3" type="bool"
+            location="LeftOfScreen1" />
+
+        <mat
+            id="IN4" type="bool"
+            location="onSofaLeft" />
+
+        <mat
+            id="IN5" type="bool"
+            location="onSofaRight" />
+
+        <mat
+            id="IN6" type="bool"
+            location="onSofaCenter" />
+        <mat
+            id="IN7" type="bool"
+            location="behindSofa" />
+
+        <mat
+            id="IN8" type="bool"
+            location="UnderScreen" />
+                
+    </mats>
+</controller>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema version="1.0" elementFormDefault="qualified"
+	targetNamespace="http://societies.org/api/internal/schema/privacytrust/privacyprotection/model/privacypolicy"
+	xmlns:tns="http://societies.org/api/internal/schema/privacytrust/privacyprotection/model/privacypolicy"
+	xmlns:ns1="http://societies.org/api/schema/identity"
+	xmlns:ns2="http://societies.org/api/schema/privacytrust/privacy/model/privacypolicy"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
+	jaxb:version="2.0" xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc"
+	jaxb:extensionBindingPrefixes="xjc">
+
+	<xs:import namespace="http://societies.org/api/schema/identity"
+		schemaLocation="../../../../external/src/main/resources/org.societies.api.schema.identity.xsd" />
+
+	<xs:import
+		namespace="http://societies.org/api/schema/privacytrust/privacy/model/privacypolicy"
+		schemaLocation="../../../../external/src/main/resources/org.societies.api.schema.privacytrust.privacy.model.privacypolicy.xsd" />
+
+	<xs:complexType name="agreementEnvelope">
+		<xs:sequence>
+			<xs:element name="agreement" type="tns:agreement"
+				minOccurs="0" />
+			<xs:element name="agreementCheckSum" type="xs:long" />
+			<xs:element name="publicKey" type="xs:base64Binary"
+				minOccurs="0" />
+			<xs:element name="signature" type="xs:base64Binary"
+				minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="agreement">
+		<xs:sequence>
+			<xs:element name="requestedItems" type="ns2:responseItem"
+				nillable="true" minOccurs="0" maxOccurs="unbounded" />
+			<xs:element name="requestor" type="ns1:requestorBean"
+				minOccurs="0" />
+			<xs:element name="userIdentity" type="xs:string"
+				minOccurs="0" />
+			<xs:element name="userPublicIdentity" type="xs:string"
+				minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+
+</xs:schema>
+
