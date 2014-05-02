@@ -1,6 +1,0 @@
-# ignore Database files:
-derby.log
-cismanagertest/
-.\\cismanagertest/
-cismanagertestdb/
-.\\cismanagertestdb/
